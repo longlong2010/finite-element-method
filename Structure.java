@@ -57,7 +57,7 @@ public class Structure {
 		
 		int k = 0;
 		for (Node n:nodes) {
-			HashSet<Constraint>	contains = n.getConstraints();
+			HashSet<Constraint> contains = n.getConstraints();
 			for (Constraint c:contains) {
 				switch (c) {
 					case Y:
