@@ -1,6 +1,7 @@
+import node.*;
 import element.*;
 import constraint.*;
-import node.*;
+
 import matrix.*;
 
 public class Main {
@@ -8,6 +9,7 @@ public class Main {
 		Node n1 = new Node(0, 0);
 		Node n2 = new Node(1, 0);
 		Node n3 = new Node(2, 0);
+		
 		n1.addConstraint(Constraint.Y);
 		n1.addConstraint(Constraint.THETA);
 

@@ -1,5 +1,5 @@
-import element.*;
 import node.*;
+import element.*;
 import constraint.*;
 
 import matrix.Matrix;
@@ -60,6 +60,8 @@ public class Structure {
 			HashSet<Constraint> contains = n.getConstraints();
 			for (Constraint c:contains) {
 				switch (c) {
+					case X:
+					break;
 					case Y:
 					for (int i = 0; i < this.k.getColumnSize(); i++) {
 						this.k.set(k, i, 0);
