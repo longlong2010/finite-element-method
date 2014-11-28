@@ -91,7 +91,7 @@ public class Structure {
 			}
 			k += n.getDofNum();
 		}
-
+		
 		try {
 			LU lu = LU.LUDecomposition(this.k);
 			lu.solve(this.r).print();

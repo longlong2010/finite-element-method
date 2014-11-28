@@ -21,9 +21,9 @@ public class Node {
 		this.dofs = new TreeSet<Dof>();
 		this.loads = new TreeSet<Load>();
 		this.constraints = new TreeSet<Constraint>();
-
+		
+		this.dofs.add(Dof.X);
 		this.dofs.add(Dof.Y);
-		this.dofs.add(Dof.THETA);
 	}
 
 	public boolean addLoad(Load l) {

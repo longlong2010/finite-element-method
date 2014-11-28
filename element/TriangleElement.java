@@ -36,16 +36,16 @@ public class TriangleElement extends Element {
 		this.ke = new Matrix(6, 6);
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				double k1 = b[i] * b[j] + (1 - nu) * c[i] * b[j] / 2;
+				double k1 = b[i] * b[j] + (1 - nu) * c[i] * c[j] / 2;
 				double k2 = nu * c[i] * b[j] + (1 - nu) * b[i] * c[j] / 2;
-				double k3 = k2;
+				double k3 = nu * b[i] * c[j] + (1 - nu) * c[i] * b[j] / 2;
 				double k4 = c[i] * c[j] + (1 - nu) * b[i] * b[j] / 2;
+				
 				this.ke.set(i * 2, j * 2, k1);
-				this.ke.set(i * 2, j * 2 + 1, k2);
-				this.ke.set(i * 2 + 1, j * 2, k3);
+				this.ke.set(i * 2, j * 2 + 1, k3);
+				this.ke.set(i * 2 + 1, j * 2, k2);
 				this.ke.set(i * 2 + 1, j * 2 + 1, k4);
 			}
 		}
-		this.ke.print();
 	}
 }

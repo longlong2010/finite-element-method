@@ -1,13 +1,13 @@
 package element;
 
-import node.Node;
+import node.BeamNode;
 import matrix.Matrix;
 
 public class BeamElement extends Element {
 	
 	protected double ei;
 
-	public BeamElement(Node n1, Node n2, double ei) {
+	public BeamElement(BeamNode n1, BeamNode n2, double ei) {
 		super();
 		
 		this.addNode(n1);
