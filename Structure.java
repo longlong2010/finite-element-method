@@ -1,4 +1,5 @@
 import node.*;
+import load.*;
 import element.*;
 import constraint.*;
 
@@ -13,6 +14,7 @@ public class Structure {
 	protected ArrayList<Node> nodes;
 	protected ArrayList<Element> elements;
 	protected Matrix k;
+	protected Matrix r;
 	
 	public Structure() {
 		this.nodes = new ArrayList<Node>();
@@ -29,9 +31,11 @@ public class Structure {
 		return this.elements.contains(e) ? false : this.elements.add(e);
 	}
 
-	public void solve(Matrix b) {
+	public void solve() {
 		int dof = this.nodes.size() * 2;
 		this.k = new Matrix(dof, dof);
+		this.r = new Matrix(dof ,1);
+
 		for (Element e:elements) {
 			ArrayList<Node> ns = e.getNodes();
 			Matrix ke = e.getKe();
@@ -76,12 +80,26 @@ public class Structure {
 					break;
 				}
 			}
+
+			HashSet<Load> loads = n.getLoads();
+			for (Load l:loads) {
+				switch (l) {
+					case N:
+					break;
+					case Q:
+					this.r.set(k, 0, l.getValue());
+					break;
+					case M:
+					this.r.set(k + 1, 0, l.getValue());
+					break;
+				}
+			}
 			k += 2;
 		}
 
 		try {
 			LU lu = LU.LUDecomposition(this.k);
-			lu.solve(b).print();
+			lu.solve(this.r).print();
 		} catch (Exception ex) {
 			ex.printStackTrace();		
 		}

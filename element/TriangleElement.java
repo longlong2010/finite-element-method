@@ -46,5 +46,6 @@ public class TriangleElement extends Element {
 				this.ke.set(i * 2 + 1, j * 2 + 1, k4);
 			}
 		}
+		this.ke.print();
 	}
 }

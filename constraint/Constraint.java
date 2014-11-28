@@ -1,5 +1,5 @@
 package constraint;
 
 public enum Constraint {
-	X,Y,THETA
+	X,Y,THETA;
 }
