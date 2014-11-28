@@ -8,9 +8,10 @@ import matrix.lu.LU;
 import matrix.lu.LUException;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 public class Structure {
+
 	protected ArrayList<Node> nodes;
 	protected ArrayList<Element> elements;
 	protected Matrix k;
@@ -32,26 +33,31 @@ public class Structure {
 	}
 
 	public void solve() {
-		int dof = this.nodes.size() * 2;
+		int dof = 0;
+		for (Node n:nodes) {
+			dof += n.getDofNum();
+		}
+
 		this.k = new Matrix(dof, dof);
 		this.r = new Matrix(dof ,1);
 
 		for (Element e:elements) {
 			ArrayList<Node> ns = e.getNodes();
 			Matrix ke = e.getKe();
-			int row = ke.getRowSize();
-			int col = ke.getColumnSize();
+			int size = ke.getColumnSize();
 
-			int map[] = new int[ns.size() * 2];
+			int map[] = new int[size];
 			int l = 0;
+
 			for (Node n:ns) {
-				int k = this.nodes.indexOf(n) * 2;
-				map[l++] = k;
-				map[l++] = k + 1;
+				int k = this.nodes.indexOf(n) * n.getDofNum();
+				for (int i = 0; i < n.getDofNum(); i++) {
+					map[l++] = k + i;
+				}
 			}
 
-			for (int i = 0; i < row; i++) {
-				for (int j = 0; j < col; j++) {
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
 					int mi = map[i];
 					int mj = map[j];
 					this.k.set(mi, mj, this.k.get(mi, mj) + ke.get(i, j));
@@ -61,40 +67,29 @@ public class Structure {
 		
 		int k = 0;
 		for (Node n:nodes) {
-			HashSet<Constraint> contains = n.getConstraints();
-			for (Constraint c:contains) {
-				switch (c) {
-					case X:
-					break;
-					case Y:
-					for (int i = 0; i < this.k.getColumnSize(); i++) {
-						this.k.set(k, i, 0);
+			TreeSet<Constraint> contains = n.getConstraints();
+			TreeSet<Dof> dofs = n.getDofs();
+			
+			int dofn = 0;
+			for (Dof d:dofs) {
+				for (Constraint c:contains) {
+					if (c.getDof() == d) {
+						for (int i = 0; i < dof; i++) {
+							this.k.set(k + dofn, i, 0);
+						}
+						this.k.set(k + dofn, k + dofn, 1);
 					}
-					this.k.set(k, k, 1);
-					break;
-					case THETA:
-					for (int i = 0; i < this.k.getColumnSize(); i++) {
-						this.k.set(k + 1, i, 0);
+				}
+				
+				TreeSet<Load> loads = n.getLoads();
+				for (Load l:loads) {
+					if (l.getDof() == d) {
+						this.r.set(k + dofn, 0, l.getValue());
 					}
-					this.k.set(k + 1, k + 1, 1);
-					break;
 				}
+				dofn++;
 			}
-
-			HashSet<Load> loads = n.getLoads();
-			for (Load l:loads) {
-				switch (l) {
-					case N:
-					break;
-					case Q:
-					this.r.set(k, 0, l.getValue());
-					break;
-					case M:
-					this.r.set(k + 1, 0, l.getValue());
-					break;
-				}
-			}
-			k += 2;
+			k += n.getDofNum();
 		}
 
 		try {

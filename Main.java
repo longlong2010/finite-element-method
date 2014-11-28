@@ -14,7 +14,7 @@ public class Main {
 		n1.addConstraint(Constraint.Y);
 		n1.addConstraint(Constraint.THETA);
 
-		Load l1 = Load.Q;
+		Load l1 = Load.Y;
 		Load l2 = Load.M;
 
 		l1.setValue(-0.5);

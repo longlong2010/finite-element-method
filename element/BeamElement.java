@@ -1,12 +1,15 @@
 package element;
+
 import node.Node;
 import matrix.Matrix;
 
 public class BeamElement extends Element {
+	
 	protected double ei;
 
 	public BeamElement(Node n1, Node n2, double ei) {
 		super();
+		
 		this.addNode(n1);
 		this.addNode(n2);
 		this.ei = ei;
@@ -38,6 +41,5 @@ public class BeamElement extends Element {
 		this.ke.set(3, 2, -6 * l * ei);
 		this.ke.set(3, 3, 4 * l * l * ei);
 	
-		this.ke.print();
 	}
 }
