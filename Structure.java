@@ -94,7 +94,35 @@ public class Structure {
 		
 		try {
 			LU lu = LU.LUDecomposition(this.k);
-			lu.solve(this.r).print();
+			Matrix u = lu.solve(this.r);
+			u.print();
+
+			k = 0;
+			for (Node n:nodes) {
+				TreeSet<Dof> dofs = n.getDofs();
+				for (Dof d:dofs) {
+					double v = u.get(k, 0);
+					switch (d) {
+						case X:
+						n.setU(v);
+						break;
+						case Y:
+						n.setV(v);
+						break;
+						case THETA:
+						if (n instanceof BeamNode) {
+							BeamNode bn = (BeamNode) n;
+							bn.setTheta(v);
+						}
+						break;
+					}
+					k++;
+				}
+			}
+
+			for (Element e:elements) {
+
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();		
 		}

@@ -18,6 +18,7 @@ public class RectangleElement extends Element {
 		int xi[] = new int[3];
 		int eta[] = new int[3];
 		double a, b;
+		a = b = 0;
 
 		for (int i = 0; i < nnode; i++) {
 			for (int j = i + 1; j < nnode; j++) {

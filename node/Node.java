@@ -10,6 +10,9 @@ public class Node {
 	protected double x;
 	protected double y;
 
+	protected double u;
+	protected double v;
+
 	protected TreeSet<Dof> dofs;
 	protected TreeSet<Load> loads;
 	protected TreeSet<Constraint> constraints; 
@@ -40,6 +43,30 @@ public class Node {
 
 	public double getY() {
 		return this.y;
+	}
+
+	public double getU() {
+		return this.u;
+	}
+
+	public boolean setU(double u) {
+		boolean rc = !this.constraints.contains(Constraint.X);
+		if (rc) {
+			this.v = v;
+		}
+		return rc;
+	}
+	
+	public double getV() {
+		return this.v;
+	}
+
+	public boolean setV(double v) {
+		boolean rc = !this.constraints.contains(Constraint.Y);
+		if (rc) {
+			this.v = v;
+		}
+		return rc;
 	}
 
 	public TreeSet<Load> getLoads() {
