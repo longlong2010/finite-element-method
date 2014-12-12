@@ -52,7 +52,7 @@ public class Node {
 	public boolean setU(double u) {
 		boolean rc = !this.constraints.contains(Constraint.X);
 		if (rc) {
-			this.v = v;
+			this.u = u;
 		}
 		return rc;
 	}

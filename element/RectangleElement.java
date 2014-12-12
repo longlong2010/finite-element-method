@@ -60,4 +60,8 @@ public class RectangleElement extends Element {
 			}
 		}
 	}
+
+	public Matrix getStress() {
+		return new Matrix();
+	}
 }

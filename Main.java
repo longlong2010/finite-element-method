@@ -2,11 +2,13 @@ import node.*;
 import load.*;
 import element.*;
 import constraint.*;
+import visualization.*;
 
 import matrix.*;
 
 public class Main {
 	public static void main(String[] args) {
+		/*
 		BeamNode n1 = new BeamNode(0, 0);
 		BeamNode n2 = new BeamNode(1, 0);
 		BeamNode n3 = new BeamNode(2, 0);
@@ -33,9 +35,9 @@ public class Main {
 		s.addElement(e1);
 		s.addElement(e2);
 		
-		s.solve();
+		s.solve();*/
 		
-		s = new Structure();
+		Structure s = new Structure();
 	
 		Node nn1 = new Node(0, 1);
 		Node nn2 = new Node(1, 1);
@@ -56,8 +58,8 @@ public class Main {
 		nn5.addConstraint(Constraint.X);
 		nn5.addConstraint(Constraint.Y);
 		
-		e1 = new TriangleElement(nn1, nn3, nn4, 1, 0.2); 
-		e2 = new TriangleElement(nn2, nn4, nn5, 1, 0.2);
+		Element e1 = new TriangleElement(nn1, nn3, nn4, 1, 0.2); 
+		Element e2 = new TriangleElement(nn2, nn4, nn5, 1, 0.2);
 		Element e3 = new TriangleElement(nn4, nn2, nn1, 1, 0.2);
 
 		s.addElement(e1);
@@ -65,5 +67,11 @@ public class Main {
 		s.addElement(e3);
 
 		s.solve();
+		
+		Visualizer v = new Visualizer(400, 400);
+		v.addElement(e1);
+		v.addElement(e2);
+		v.addElement(e3);
+		v.show();
 	}
 }

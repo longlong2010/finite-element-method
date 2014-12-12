@@ -1,11 +1,13 @@
 package element;
 
+import node.Node;
 import node.BeamNode;
 import matrix.Matrix;
 
 public class BeamElement extends Element {
 	
 	protected double ei;
+	protected double l; 
 
 	public BeamElement(BeamNode n1, BeamNode n2, double ei) {
 		super();
@@ -18,7 +20,7 @@ public class BeamElement extends Element {
 		double dx = n2.getX() - n1.getX();
 		double dy = n2.getY() - n1.getY();
 		double l = Math.sqrt(dx * dx + dy * dy);
-
+		this.l = l;
 		double theta = Math.atan(dy / dx);
 
 		this.ke.set(0, 0, 12 * ei);
@@ -41,5 +43,21 @@ public class BeamElement extends Element {
 		this.ke.set(3, 2, -6 * l * ei);
 		this.ke.set(3, 3, 4 * l * l * ei);
 	
+	}
+
+	public Matrix getStress() {
+		Matrix sigma = new Matrix(1, 1);
+			
+		int nnode = this.nodes.size();
+		double[] d = new double[nnode * 2];
+		
+		int k = 0;
+		for (Node n:this.nodes) {
+			BeamNode bn = (BeamNode) n;
+			d[k++] = bn.getV();
+			d[k++] = bn.getTheta();
+		}
+		
+		return sigma;
 	}
 }

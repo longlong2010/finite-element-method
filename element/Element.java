@@ -24,4 +24,6 @@ public abstract class Element {
 	public Matrix getKe() {
 		return this.ke;
 	}
+
+	public abstract Matrix getStress();
 }

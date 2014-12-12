@@ -119,9 +119,10 @@ public class Structure {
 					k++;
 				}
 			}
-
+			
 			for (Element e:elements) {
-
+				Matrix stress = e.getStress();
+				stress.print();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();		
