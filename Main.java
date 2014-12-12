@@ -44,7 +44,9 @@ public class Main {
 		Node nn3 = new Node(0, 0);
 		Node nn4 = new Node(1, 0);
 		Node nn5 = new Node(2, 0);
-		
+		Node nn6 = new Node(0.5, 0.5);
+		Node nn7 = new Node(1.5, 0.5);
+
 		Load l = Load.X;
 		l.setValue(1);
 		nn1.addLoad(l);
@@ -58,13 +60,20 @@ public class Main {
 		nn5.addConstraint(Constraint.X);
 		nn5.addConstraint(Constraint.Y);
 		
-		Element e1 = new TriangleElement(nn1, nn3, nn4, 1, 0.2); 
-		Element e2 = new TriangleElement(nn2, nn4, nn5, 1, 0.2);
-		Element e3 = new TriangleElement(nn4, nn2, nn1, 1, 0.2);
+		Element e1 = new TriangleElement(nn2, nn1, nn6, 10, 0.2); 
+		Element e2 = new TriangleElement(nn4, nn2, nn6, 10, 0.2);
+		Element e3 = new TriangleElement(nn1, nn3, nn6, 10, 0.2);
+		Element e4 = new TriangleElement(nn3, nn4, nn6, 10, 0.2);
+
+		Element e5 = new TriangleElement(nn2, nn4, nn7, 10, 0.2);
+		Element e6 = new TriangleElement(nn4, nn5, nn7, 10, 0.2);
 
 		s.addElement(e1);
 		s.addElement(e2);
 		s.addElement(e3);
+		s.addElement(e4);
+		s.addElement(e5);
+		s.addElement(e6);
 
 		s.solve();
 		
@@ -72,6 +81,9 @@ public class Main {
 		v.addElement(e1);
 		v.addElement(e2);
 		v.addElement(e3);
+		v.addElement(e4);
+		v.addElement(e5);
+		v.addElement(e6);
 		v.show();
 	}
 }

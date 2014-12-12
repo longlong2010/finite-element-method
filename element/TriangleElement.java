@@ -18,12 +18,12 @@ public class TriangleElement extends Element {
 		
 		this.s = new Matrix(nnode, nnode * 2);
 		
-		double delta = n2.getX() * n3.getY() - n2.getY() * n3.getX() 
+		double delta = Math.abs(n2.getX() * n3.getY() - n2.getY() * n3.getX() 
 					 + n3.getX() * n1.getY() - n3.getY() * n1.getX()
-					 + n1.getX() * n2.getY() - n1.getY() * n2.getX();
+					 + n1.getX() * n2.getY() - n1.getY() * n2.getX()) / 2;
 	
 		double d = et / (4 * (1 - nu * nu) * delta);
-
+		
 		double[] b = new double[nnode];
 		double[] c = new double[nnode];
 		for (int i = 0; i < nnode; i++) {
@@ -37,10 +37,10 @@ public class TriangleElement extends Element {
 		this.ke = new Matrix(nnode * 2, nnode * 2);
 		for (int i = 0; i < nnode; i++) {
 			for (int j = 0; j < nnode; j++) {
-				double k1 = d * b[i] * b[j] + (1 - nu) * c[i] * c[j] / 2;
-				double k2 = d * nu * c[i] * b[j] + (1 - nu) * b[i] * c[j] / 2;
-				double k3 = d * nu * b[i] * c[j] + (1 - nu) * c[i] * b[j] / 2;
-				double k4 = d * c[i] * c[j] + (1 - nu) * b[i] * b[j] / 2;
+				double k1 = d * (b[i] * b[j] + (1 - nu) * c[i] * c[j] / 2);
+				double k2 = d * (nu * c[i] * b[j] + (1 - nu) * b[i] * c[j] / 2);
+				double k3 = d * (nu * b[i] * c[j] + (1 - nu) * c[i] * b[j] / 2);
+				double k4 = d * (c[i] * c[j] + (1 - nu) * b[i] * b[j] / 2);
 				
 				this.ke.set(i * 2, j * 2, k1);
 				this.ke.set(i * 2, j * 2 + 1, k3);

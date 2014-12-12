@@ -3,6 +3,8 @@ package visualization;
 import node.*;
 import element.*;
 
+import matrix.Matrix;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
@@ -47,17 +49,33 @@ public class Visualizer {
 	}
 
 	protected void paintElements(Graphics g) {
+		double smax = 0;
+		int m = 1;
+
+		for (Element e:this.elements) {
+			Matrix sigma = e.getStress();
+			double v = Math.abs(sigma.get(m, 0));
+			if (v > smax) {
+				smax = v;
+			}
+		}
+
 		for (Element e:this.elements) {
 			int nnode = e.getNodes().size();
 			int[] x = new int[nnode];
 			int[] y = new int[nnode];
+			
 			int k = 0;
 			for (Node n:e.getNodes()) {
-				x[k] = this.getX(n.getX());
-				y[k] = this.getY(n.getY());
+				x[k] = this.getX(n.getX() + n.getU());
+				y[k] = this.getY(n.getY() + n.getV());
 				k++;
 			}
-			g.setColor(Color.blue);
+
+			Matrix sigma = e.getStress();
+			Color c = this.getColor(sigma.get(m, 0) / smax);
+
+			g.setColor(c);
 			g.fillPolygon(x, y, nnode);
 			g.setColor(Color.black);
 			g.drawPolygon(x, y, nnode);
@@ -102,6 +120,31 @@ public class Visualizer {
 		double ratio = Math.min(this.width / wx, this.height / hy) * 0.8;
 	
 		return (int) (this.height * 0.9 - ratio * (y - yn));
+	}
+
+	protected Color getColor(double ratio) {
+		if (Math.abs(ratio) > 1) {
+			ratio = ratio / Math.abs(ratio);
+		}
+		double r, g, b;
+		if (ratio >= -1 && ratio < -0.5) {
+			b = 1;
+			r = 0;
+			g = (1 + ratio) * 2;
+		} else if (ratio >= -0.5 && ratio < 0) {
+			g = 1;
+			r = 0;
+			b = -ratio * 2;
+		} else if (ratio >= 0 && ratio < 0.5) {
+			g = 1;
+			b = 0;
+			r = ratio * 2;
+		} else {
+			r = 1;
+			b = 0;
+			g = (1 - ratio) * 2;
+		}
+		return new Color((float) r, (float) g, (float) b);
 	}
 
 	public void show() {
