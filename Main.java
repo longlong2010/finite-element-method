@@ -60,13 +60,13 @@ public class Main {
 		nn5.addConstraint(Constraint.X);
 		nn5.addConstraint(Constraint.Y);
 		
-		Element e1 = new TriangleElement(nn2, nn1, nn6, 10, 0.2); 
-		Element e2 = new TriangleElement(nn4, nn2, nn6, 10, 0.2);
-		Element e3 = new TriangleElement(nn1, nn3, nn6, 10, 0.2);
-		Element e4 = new TriangleElement(nn3, nn4, nn6, 10, 0.2);
+		Element e1 = new TriangleElement(nn1, nn2, nn6, 1, 0.2); 
+		Element e2 = new TriangleElement(nn2, nn4, nn6, 1, 0.2);
+		Element e3 = new TriangleElement(nn1, nn3, nn6, 1, 0.2);
+		Element e4 = new TriangleElement(nn4, nn3, nn6, 1, 0.2);
 
-		Element e5 = new TriangleElement(nn2, nn4, nn7, 10, 0.2);
-		Element e6 = new TriangleElement(nn4, nn5, nn7, 10, 0.2);
+		Element e5 = new TriangleElement(nn2, nn4, nn7, 1, 0.2);
+		Element e6 = new TriangleElement(nn5, nn7, nn4, 1, 0.2);
 
 		s.addElement(e1);
 		s.addElement(e2);
