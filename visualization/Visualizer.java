@@ -50,7 +50,7 @@ public class Visualizer {
 
 	protected void paintElements(Graphics g) {
 		double smax = 0;
-		int m = 2;
+		int m = 0;
 
 		for (Element e:this.elements) {
 			Matrix sigma = e.getStress();
@@ -67,8 +67,8 @@ public class Visualizer {
 			
 			int k = 0;
 			for (Node n:e.getNodes()) {
-				x[k] = this.getX(n.getX());
-				y[k] = this.getY(n.getY());
+				x[k] = this.getX(n.getX() + n.getU());
+				y[k] = this.getY(n.getY() + n.getV());
 				k++;
 			}
 

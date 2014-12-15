@@ -38,7 +38,62 @@ public class Main {
 		s.solve();*/
 		
 		Structure s = new Structure();
-	
+		Visualizer v = new Visualizer(400, 400);
+
+		Node[][] ns = new Node[11][];
+		for (int i = 0; i < 11; i++) {
+			ns[i] = new Node[21 - i];
+			for (int j = 0; j < 21 - i; j++) {
+				Node n = new Node(j * 0.1, i * 0.1);
+				ns[i][j] = n;
+			}
+		}
+
+		for (int i = 0; i < 10; i++) {
+			int j = 0;
+			for (j = 0; j < 19 - i; j++) {
+				Node n1 = ns[i][j];
+				Node n2 = ns[i][j + 1];
+				Node n3 = ns[i + 1][j];
+				Node n4 = ns[i + 1][j + 1];
+				
+				Element e1 = new TriangleElement(n1, n2, n3, 100, 0.2);
+				Element e2 = new TriangleElement(n2, n3, n4, 100, 0.2);
+				s.addElement(e1);
+				s.addElement(e2);
+			
+				v.addElement(e1);
+				v.addElement(e2);
+			}
+
+			Node n1 = ns[i][j];
+			Node n2 = ns[i + 1][j];
+			Node n3 = ns[i][j + 1];
+		
+			Element e3 = new TriangleElement(n1, n2, n3, 100, 0.2);
+			
+			s.addElement(e3);
+			v.addElement(e3);
+		
+		}
+
+		Load l = Load.X;
+		l.setValue(1);
+		ns[10][0].addLoad(l);
+
+		ns[0][0].addConstraint(Constraint.X);
+		ns[0][0].addConstraint(Constraint.Y);
+
+		ns[0][10].addConstraint(Constraint.X);
+		ns[0][10].addConstraint(Constraint.Y);
+
+		ns[0][20].addConstraint(Constraint.X);
+		ns[0][20].addConstraint(Constraint.Y);
+
+		s.solve();
+
+		v.show();
+		/*
 		Node nn1 = new Node(0, 1);
 		Node nn2 = new Node(1, 1);
 		Node nn3 = new Node(0, 0);
@@ -85,5 +140,6 @@ public class Main {
 		v.addElement(e5);
 		v.addElement(e6);
 		v.show();
+		*/
 	}
 }
