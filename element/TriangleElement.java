@@ -8,7 +8,7 @@ public class TriangleElement extends Element {
 	
 	protected Matrix s;
 
-	public TriangleElement(Node n1, Node n2, Node n3, double et, double nu) {
+	public TriangleElement(Node n1, Node n2, Node n3, double e, double t, double nu) {
 		super();
 		this.addNode(n1);
 		this.addNode(n2);
@@ -22,7 +22,7 @@ public class TriangleElement extends Element {
 					 + n3.getX() * n1.getY() - n3.getY() * n1.getX()
 					 + n1.getX() * n2.getY() - n1.getY() * n2.getX()) / 2;
 	
-		double d = et / (4 * (1 - nu * nu) * Math.abs(delta));
+		double d = e * t / (4 * (1 - nu * nu) * Math.abs(delta));
 		
 		double[] b = new double[nnode];
 		double[] c = new double[nnode];
@@ -49,7 +49,7 @@ public class TriangleElement extends Element {
 			}
 		}
 		
-		d = et /  (2 * (1 - nu * nu) * delta);
+		d = e /  (2 * (1 - nu * nu) * delta);
 		
 		for (int i = 0; i < nnode; i++) {
 			int j = 2 * i;

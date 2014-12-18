@@ -67,6 +67,23 @@ public class Structure {
 		
 		int k = 0;
 		for (Node n:nodes) {
+			TreeSet<Dof> dofs = n.getDofs();
+			
+			int dofn = 0;
+			for (Dof d:dofs) {
+				TreeSet<Load> loads = n.getLoads();
+				for (Load l:loads) {
+					if (l.getDof() == d) {
+						this.r.set(k + dofn, 0, l.getValue());
+					}
+				}
+				dofn++;
+			}
+			k += n.getDofNum();
+		}
+
+		k = 0;
+		for (Node n:nodes) {
 			TreeSet<Constraint> contains = n.getConstraints();
 			TreeSet<Dof> dofs = n.getDofs();
 			
@@ -78,13 +95,7 @@ public class Structure {
 							this.k.set(k + dofn, i, 0);
 						}
 						this.k.set(k + dofn, k + dofn, 1);
-					}
-				}
-				
-				TreeSet<Load> loads = n.getLoads();
-				for (Load l:loads) {
-					if (l.getDof() == d) {
-						this.r.set(k + dofn, 0, l.getValue());
+						this.r.set(k + dofn, 0, 0);
 					}
 				}
 				dofn++;

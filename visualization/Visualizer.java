@@ -22,11 +22,17 @@ public class Visualizer {
 	protected int width;
 	protected int height;
 
-	double xn;
-	double xm;
+	protected double xn;
+	protected double xm;
 
-	double yn;
-	double ym;
+	protected double yn;
+	protected double ym;
+
+	protected int stress = 0;
+
+	public final static int SIGMA_X = 0;
+	public final static int SIGMA_Y = 1;
+	public final static int TAU_XY = 2;
 
 	public Visualizer(int w, int h) {
 		this.width = w;
@@ -50,7 +56,7 @@ public class Visualizer {
 
 	protected void paintElements(Graphics g) {
 		double smax = 0;
-		int m = 0;
+		int m = this.stress;
 
 		for (Element e:this.elements) {
 			Matrix sigma = e.getStress();
@@ -147,7 +153,8 @@ public class Visualizer {
 		return new Color((float) r, (float) g, (float) b);
 	}
 
-	public void show() {
+	public void show(int stress) {
+		this.stress = stress;
 		this.frame.setVisible(true);		
 	}
 }

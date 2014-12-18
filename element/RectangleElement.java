@@ -6,7 +6,7 @@ import matrix.Matrix;
 
 public class RectangleElement extends Element {
 	
-	public RectangleElement(Node n1, Node n2, Node n3, Node n4, double et, double nu) {
+	public RectangleElement(Node n1, Node n2, Node n3, Node n4, double e, double t, double nu) {
 		super();
 		this.addNode(n1);
 		this.addNode(n2);
@@ -43,7 +43,7 @@ public class RectangleElement extends Element {
 			}
 		}
 		double delta = a * b;
-		double s = et / (4 * (1 - nu * nu) * delta);
+		double s = e * t / (4 * (1 - nu * nu) * delta);
 
 		this.ke = new Matrix(nnode * 2, nnode * 2);
 		for (int i = 0; i < 4; i++) {
