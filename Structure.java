@@ -64,6 +64,7 @@ public class Structure {
 				}
 			}
 		}
+		this.k.print();
 		
 		int k = 0;
 		for (Node n:nodes) {
@@ -106,7 +107,6 @@ public class Structure {
 		try {
 			LU lu = LU.LUDecomposition(this.k);
 			Matrix u = lu.solve(this.r);
-			u.print();
 
 			k = 0;
 			for (Node n:nodes) {
@@ -129,11 +129,6 @@ public class Structure {
 					}
 					k++;
 				}
-			}
-			
-			for (Element e:elements) {
-				Matrix stress = e.getStress();
-				stress.print();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();		

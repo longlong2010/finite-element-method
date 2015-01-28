@@ -30,7 +30,19 @@ public class Node {
 	}
 
 	public boolean addLoad(Load l) {
-		return this.dofs.contains(l.getDof()) ? this.loads.add(l) : false;
+		boolean rc = this.dofs.contains(l.getDof());
+		if (rc) {
+			if (this.loads.contains(l)) {
+				for (Load load:this.loads) {
+					if (load == l) {
+						load.setValue(load.getValue() + l.getValue());
+					}
+				}
+			} else {
+				this.loads.add(l);
+			}
+		}
+		return rc;
 	}
 
 	public boolean addConstraint(Constraint c) {
