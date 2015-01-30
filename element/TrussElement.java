@@ -25,10 +25,11 @@ public class TrussElement extends Element {
 		this.ke.set(0, 0, ea / l);
 		this.ke.set(0, 1, -ea / l);
 		this.ke.set(1, 0, ea / l);
-		this.ke.set(1, 1, ea / l);
+		this.ke.set(1, 1, -ea / l);
 	}
 	
 	public Matrix getStress() {
-		return new Matrix();
+		Matrix sigma = new Matrix(1, 1);
+		return sigma;
 	}
 }
