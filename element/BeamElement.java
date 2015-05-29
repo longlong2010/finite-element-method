@@ -22,27 +22,30 @@ public class BeamElement extends Element {
 		double l = Math.sqrt(dx * dx + dy * dy);
 		this.l = l;
 		double theta = Math.atan(dy / dx);
-
-		this.ke.set(0, 0, 12 * ei);
-		this.ke.set(0, 1, 6 * l * ei);
-		this.ke.set(0, 2, -12 * ei);
-		this.ke.set(0, 3, 6 * l * ei);
-
-		this.ke.set(1, 0, 6 * l * ei);
-		this.ke.set(1, 1, 4 * l * l * ei);
-		this.ke.set(1, 2, -6 * l * ei);
-		this.ke.set(1, 3, 2 * l * l * ei);
 		
-		this.ke.set(2, 0, -12 * ei);
-		this.ke.set(2, 1, -6 * l * ei);
-		this.ke.set(2, 2, 12 * ei);
-		this.ke.set(2, 3, -6 * l * ei);
+		double l2 = l * l;
+		double l3 = l * l * l;
+
+		this.ke.set(0, 0, 12 * ei / l3);
+		this.ke.set(0, 1, 6 * ei/ l2);
+		this.ke.set(0, 2, -12 * ei / l3);
+		this.ke.set(0, 3, 6 * ei / l2);
+
+		this.ke.set(1, 0, 6 * ei / l2);
+		this.ke.set(1, 1, 4 * ei / l);
+		this.ke.set(1, 2, -6 * ei / l2);
+		this.ke.set(1, 3, 2 * ei / l);
 		
-		this.ke.set(3, 0, 6 * l * ei);
-		this.ke.set(3, 1, 2 * l * l * ei);
-		this.ke.set(3, 2, -6 * l * ei);
-		this.ke.set(3, 3, 4 * l * l * ei);
-	
+		this.ke.set(2, 0, -12 * ei / l3);
+		this.ke.set(2, 1, -6 * ei / l2);
+		this.ke.set(2, 2, 12 * ei / l3);
+		this.ke.set(2, 3, -6 * ei / l2);
+		
+		this.ke.set(3, 0, 6 * ei / l2);
+		this.ke.set(3, 1, 2 * ei / l);
+		this.ke.set(3, 2, -6 * ei / l2);
+		this.ke.set(3, 3, 4 * ei / l);
+		
 	}
 
 	public Matrix getStress() {

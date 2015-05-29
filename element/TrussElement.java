@@ -1,5 +1,6 @@
 package element;
 
+import node.Node;
 import matrix.Matrix;
 
 public class TrussElement extends Element {
