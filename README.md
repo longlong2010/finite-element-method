@@ -12,3 +12,5 @@ https://github.com/longlong2010/finite-element-method.git
 cp ../numerical-method/numerical-method.jar ./
 sh compile.sh
 ```
+![Alt text](http://78rdg5.com1.z0.glb.clouddn.com/fem1.png)
+![Alt text](http://78rdg5.com1.z0.glb.clouddn.com/fem2.png)
