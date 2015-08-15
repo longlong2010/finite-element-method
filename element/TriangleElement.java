@@ -6,8 +6,6 @@ import matrix.Matrix;
 
 public class TriangleElement extends Element {
 	
-	protected Matrix s;
-
 	public TriangleElement(Node n1, Node n2, Node n3, double e, double t, double nu) {
 		super();
 		this.addNode(n1);

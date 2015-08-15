@@ -1,3 +1,5 @@
+package structure;
+
 import node.*;
 import load.*;
 import element.*;
@@ -64,7 +66,7 @@ public class Structure {
 				}
 			}
 		}
-		this.k.print();
+		//this.k.print();
 		
 		int k = 0;
 		for (Node n:nodes) {

@@ -7,6 +7,7 @@ import node.Node;
 
 public abstract class Element {
 	protected Matrix ke;
+	protected Matrix s;
 	protected ArrayList<Node> nodes;	
 
 	public Element() {

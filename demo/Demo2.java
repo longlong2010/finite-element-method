@@ -1,12 +1,15 @@
+package demo;
+
 import node.*;
 import load.*;
 import element.*;
 import constraint.*;
 import visualization.*;
+import structure.*;
 
 import matrix.*;
 
-public class Main {
+public class Demo2 {
 
 	public static void main(String[] args) {
 		
