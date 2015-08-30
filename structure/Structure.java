@@ -46,6 +46,7 @@ public class Structure {
 		for (Element e:elements) {
 			ArrayList<Node> ns = e.getNodes();
 			Matrix ke = e.getKe();
+			
 			int size = ke.getColumnSize();
 
 			int map[] = new int[size];

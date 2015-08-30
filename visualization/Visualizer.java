@@ -83,7 +83,7 @@ public class Visualizer {
 
 			g.setColor(c);
 			g.fillPolygon(x, y, nnode);
-			g.setColor(Color.black);
+			//g.setColor(Color.black);
 			g.drawPolygon(x, y, nnode);
 		}
 	}

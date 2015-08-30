@@ -27,7 +27,7 @@ public class Demo3 {
 			BufferedReader reader = new BufferedReader(new FileReader("demo/demo3.msh"));
 			TreeMap<Integer, Node> map = new TreeMap<Integer, Node>();
 			Structure s = new Structure();
-			Visualizer v = new Visualizer(600, 400);
+			Visualizer v = new Visualizer(1200, 800);
 
 			String line;
 			int n = 0;
