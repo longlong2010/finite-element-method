@@ -1,9 +1,9 @@
 package constraint;
 
-import node.Dof;
+import geometry.node.Dof;
 
 public enum Constraint {
-	X(Dof.X), Y(Dof.Y), THETA(Dof.THETA);
+	X(Dof.X), Y(Dof.Y), THETA(Dof.THETA), T(Dof.T);
 
 	protected Dof dof;
 

@@ -1,9 +1,8 @@
 package visualization;
 
-import node.*;
-import element.*;
-
-import matrix.Matrix;
+import geometry.node.Node;
+import geometry.node.Dof;
+import geometry.element.Element;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,11 +27,7 @@ public class Visualizer {
 	protected double yn;
 	protected double ym;
 
-	protected int stress = 0;
-
-	public final static int SIGMA_X = 0;
-	public final static int SIGMA_Y = 1;
-	public final static int TAU_XY = 2;
+	protected Dof dof;
 
 	public Visualizer(int w, int h) {
 		this.width = w;
@@ -56,11 +51,10 @@ public class Visualizer {
 
 	protected void paintElements(Graphics g) {
 		double smax = 0;
-		int m = this.stress;
+		Dof m = this.dof;
 
 		for (Element e:this.elements) {
-			Matrix sigma = e.getStress();
-			double v = Math.abs(sigma.get(m, 0));
+			double v = Math.abs(e.getValue(m));
 			if (v > smax) {
 				smax = v;
 			}
@@ -73,17 +67,16 @@ public class Visualizer {
 			
 			int k = 0;
 			for (Node n:e.getNodes()) {
-				x[k] = this.getX(n.getX() + n.getU());
-				y[k] = this.getY(n.getY() + n.getV());
+				x[k] = this.getX(n.getX());
+				y[k] = this.getY(n.getY());
 				k++;
 			}
 
-			Matrix sigma = e.getStress();
-			Color c = this.getColor(sigma.get(m, 0) / smax);
+			Color c = this.getColor(e.getValue(m) / smax);
 
 			g.setColor(c);
 			g.fillPolygon(x, y, nnode);
-			//g.setColor(Color.black);
+			g.setColor(Color.black);
 			g.drawPolygon(x, y, nnode);
 		}
 	}
@@ -153,8 +146,8 @@ public class Visualizer {
 		return new Color((float) r, (float) g, (float) b);
 	}
 
-	public void show(int stress) {
-		this.stress = stress;
+	public void show(Dof d) {
+		this.dof = d;
 		this.frame.setVisible(true);		
 	}
 }

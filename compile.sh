@@ -1,5 +1,2 @@
-find . -name "*.java" | xargs javac -cp .:numerical-method.jar
-#java -classpath .:numerical-method.jar demo.Demo1
-#java -classpath .:numerical-method.jar demo.Demo2
-java -classpath .:numerical-method.jar demo.Demo3
-#java -classpath .:numerical-method.jar demo.Demo4
+find . -name "*.java" | xargs javac -cp .:la4j.jar
+java -cp .:la4j.jar Main

@@ -1,25 +1,30 @@
-package structure;
+package model;
 
-import node.*;
-import load.*;
-import element.*;
-import constraint.*;
+import org.la4j.Matrix;
+import org.la4j.Vector;
+import org.la4j.vector.dense.BasicVector;
+import org.la4j.matrix.sparse.CCSMatrix;
+import org.la4j.linear.GaussianSolver;
 
-import matrix.Matrix;
-import matrix.lu.LU;
-import matrix.lu.LUException;
+import geometry.node.Node;
+import geometry.node.Dof;
+import geometry.element.Element;
+import load.Load;
+import constraint.Constraint;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Structure {
+public abstract class Model {
 
 	protected ArrayList<Node> nodes;
 	protected ArrayList<Element> elements;
-	protected Matrix k;
-	protected Matrix r;
-	
-	public Structure() {
+	protected CCSMatrix k;
+	protected BasicVector r;
+
+	public Model() {
 		this.nodes = new ArrayList<Node>();
 		this.elements = new ArrayList<Element>();
 	}
@@ -34,20 +39,25 @@ public class Structure {
 		return this.elements.contains(e) ? false : this.elements.add(e);
 	}
 
-	public void solve() {
-		int dof = 0;
+	public int getDofNum() {
+		int ndof = 0;
 		for (Node n:nodes) {
-			dof += n.getDofNum();
+			ndof += n.getDofNum();
 		}
+		return ndof;
+	}
 
-		this.k = new Matrix(dof, dof);
-		this.r = new Matrix(dof ,1);
+	public void solve() {
+		int ndof = this.getDofNum(); 
+		
+		this.k = new CCSMatrix(ndof, ndof);
+		this.r = new BasicVector(ndof);
 
 		for (Element e:elements) {
 			ArrayList<Node> ns = e.getNodes();
 			Matrix ke = e.getKe();
 			
-			int size = ke.getColumnSize();
+			int size = ke.rows();
 
 			int map[] = new int[size];
 			int l = 0;
@@ -67,18 +77,18 @@ public class Structure {
 				}
 			}
 		}
-		//this.k.print();
-		
+
 		int k = 0;
 		for (Node n:nodes) {
 			TreeSet<Dof> dofs = n.getDofs();
 			
 			int dofn = 0;
 			for (Dof d:dofs) {
-				TreeSet<Load> loads = n.getLoads();
-				for (Load l:loads) {
+				TreeMap<Load, Double> loads = n.getLoads();
+				for (Map.Entry<Load, Double> entry : loads.entrySet()) {
+					Load l = entry.getKey();
 					if (l.getDof() == d) {
-						this.r.set(k + dofn, 0, l.getValue());
+						this.r.set(k + dofn, entry.getValue());
 					}
 				}
 				dofn++;
@@ -88,18 +98,19 @@ public class Structure {
 
 		k = 0;
 		for (Node n:nodes) {
-			TreeSet<Constraint> contains = n.getConstraints();
+			TreeMap<Constraint, Double> constraints = n.getConstraints();
 			TreeSet<Dof> dofs = n.getDofs();
 			
 			int dofn = 0;
 			for (Dof d:dofs) {
-				for (Constraint c:contains) {
+				for (Map.Entry<Constraint, Double> entry : constraints.entrySet()) {
+					Constraint c = entry.getKey();
 					if (c.getDof() == d) {
-						for (int i = 0; i < dof; i++) {
+						for (int i = 0; i < ndof; i++) {
 							this.k.set(k + dofn, i, 0);
 						}
 						this.k.set(k + dofn, k + dofn, 1);
-						this.r.set(k + dofn, 0, 0);
+						this.r.set(k + dofn, entry.getValue());
 					}
 				}
 				dofn++;
@@ -107,34 +118,17 @@ public class Structure {
 			k += n.getDofNum();
 		}
 		
-		try {
-			LU lu = LU.LUDecomposition(this.k);
-			Matrix u = lu.solve(this.r);
-
-			k = 0;
-			for (Node n:nodes) {
-				TreeSet<Dof> dofs = n.getDofs();
-				for (Dof d:dofs) {
-					double v = u.get(k, 0);
-					switch (d) {
-						case X:
-						n.setU(v);
-						break;
-						case Y:
-						n.setV(v);
-						break;
-						case THETA:
-						if (n instanceof BeamNode) {
-							BeamNode bn = (BeamNode) n;
-							bn.setTheta(v);
-						}
-						break;
-					}
-					k++;
-				}
+		GaussianSolver solver = new GaussianSolver(this.k);
+		Vector u = solver.solve(this.r);
+		System.out.println(u);
+		
+		k = 0;
+		for (Node n:nodes) {
+			TreeSet<Dof> dofs = n.getDofs();
+			for (Dof d:dofs) {
+				n.setValue(d, u.get(k));
+				k++;
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();		
 		}
 	}
 }
