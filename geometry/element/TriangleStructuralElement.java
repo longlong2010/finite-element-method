@@ -1,5 +1,6 @@
 package geometry.element;
 
+import org.la4j.Matrix;
 import org.la4j.Vector;
 import org.la4j.matrix.dense.Basic2DMatrix;
 import org.la4j.vector.dense.BasicVector;
@@ -10,7 +11,7 @@ import property.Dimension;
 import property.MaterialProperty;
 import property.DimensionProperty;
 
-public class TriangleStructuralElement extends TriangleElement {
+public class TriangleStructuralElement extends TriangleElement implements StructuralElementInterface {
 
 	protected Basic2DMatrix me;
 	protected Material material;
@@ -67,5 +68,9 @@ public class TriangleStructuralElement extends TriangleElement {
 				this.me.set(i * 2 + 1, j * 2 + 1, v * rho * t);
 			}
 		}
+	}
+
+	public Matrix getMe() {
+		return this.me;
 	}
 }

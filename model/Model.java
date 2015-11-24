@@ -47,11 +47,15 @@ public abstract class Model {
 		return ndof;
 	}
 
-	public void solve() {
+	protected void init() {
 		int ndof = this.getDofNum(); 
 		
 		this.k = new CCSMatrix(ndof, ndof);
 		this.r = new BasicVector(ndof);
+	}
+
+	protected void integrate() {
+		int ndof = this.getDofNum();
 
 		for (Element e:elements) {
 			ArrayList<Node> ns = e.getNodes();
@@ -77,7 +81,9 @@ public abstract class Model {
 				}
 			}
 		}
+	}
 
+	protected void integrateLoad() {
 		int k = 0;
 		for (Node n:nodes) {
 			TreeSet<Dof> dofs = n.getDofs();
@@ -95,8 +101,11 @@ public abstract class Model {
 			}
 			k += n.getDofNum();
 		}
+	}
 
-		k = 0;
+	protected void addConstraint() {
+		int ndof = this.getDofNum();
+		int k = 0;
 		for (Node n:nodes) {
 			TreeMap<Constraint, Double> constraints = n.getConstraints();
 			TreeSet<Dof> dofs = n.getDofs();
@@ -117,12 +126,14 @@ public abstract class Model {
 			}
 			k += n.getDofNum();
 		}
-		
+	}
+
+	protected void solveEquations() {
 		GaussianSolver solver = new GaussianSolver(this.k);
 		Vector u = solver.solve(this.r);
 		System.out.println(u);
 		
-		k = 0;
+		int k = 0;
 		for (Node n:nodes) {
 			TreeSet<Dof> dofs = n.getDofs();
 			for (Dof d:dofs) {
@@ -130,5 +141,13 @@ public abstract class Model {
 				k++;
 			}
 		}
+	}
+
+	public void solve() {
+		this.init();
+		this.integrate();
+		this.integrateLoad();
+		this.addConstraint();
+		this.solveEquations();
 	}
 }

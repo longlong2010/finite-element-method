@@ -1,5 +1,5 @@
 package geometry.element;
-
+import org.la4j.Matrix;
 import org.la4j.matrix.dense.Basic2DMatrix;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import geometry.node.Node;
 import geometry.node.Dof;
 
-public abstract class Element {
+public abstract class Element implements ElementInterface {
 	protected Basic2DMatrix ke;
 	protected ArrayList<Node> nodes;	
 
@@ -23,7 +23,7 @@ public abstract class Element {
 		return this.nodes;
 	}
 
-	public Basic2DMatrix getKe() {
+	public Matrix getKe() {
 		return this.ke;
 	}
 
