@@ -21,15 +21,15 @@ public abstract class Model {
 
 	protected ArrayList<Node> nodes;
 	protected ArrayList<Element> elements;
-	protected CCSMatrix k;
-	protected BasicVector r;
+	protected CCSMatrix K;
+	protected BasicVector R;
 
 	public Model() {
 		this.nodes = new ArrayList<Node>();
 		this.elements = new ArrayList<Element>();
 	}
 
-	public boolean addElement(Element e) {
+	protected boolean addElement(Element e) {
 		ArrayList<Node> ns = e.getNodes();
 		for (Node n:ns) {
 			if (!this.nodes.contains(n)) {
@@ -50,8 +50,21 @@ public abstract class Model {
 	protected void init() {
 		int ndof = this.getDofNum(); 
 		
-		this.k = new CCSMatrix(ndof, ndof);
-		this.r = new BasicVector(ndof);
+		this.K = new CCSMatrix(ndof, ndof);
+		this.R = new BasicVector(ndof);
+	}
+
+	protected void integrate(int[] map, Element e) {
+		Matrix ke = e.getKe();
+		int size = e.getDofNum();
+
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				int mi = map[i];
+				int mj = map[j];
+				this.K.set(mi, mj, this.K.get(mi, mj) + ke.get(i, j));
+			}
+		}
 	}
 
 	protected void integrate() {
@@ -59,9 +72,7 @@ public abstract class Model {
 
 		for (Element e:elements) {
 			ArrayList<Node> ns = e.getNodes();
-			Matrix ke = e.getKe();
-			
-			int size = ke.rows();
+			int size = e.getDofNum();
 
 			int map[] = new int[size];
 			int l = 0;
@@ -73,13 +84,7 @@ public abstract class Model {
 				}
 			}
 
-			for (int i = 0; i < size; i++) {
-				for (int j = 0; j < size; j++) {
-					int mi = map[i];
-					int mj = map[j];
-					this.k.set(mi, mj, this.k.get(mi, mj) + ke.get(i, j));
-				}
-			}
+			this.integrate(map, e);
 		}
 	}
 
@@ -94,7 +99,7 @@ public abstract class Model {
 				for (Map.Entry<Load, Double> entry : loads.entrySet()) {
 					Load l = entry.getKey();
 					if (l.getDof() == d) {
-						this.r.set(k + dofn, entry.getValue());
+						this.R.set(k + dofn, entry.getValue());
 					}
 				}
 				dofn++;
@@ -116,10 +121,10 @@ public abstract class Model {
 					Constraint c = entry.getKey();
 					if (c.getDof() == d) {
 						for (int i = 0; i < ndof; i++) {
-							this.k.set(k + dofn, i, 0);
+							this.K.set(k + dofn, i, 0);
 						}
-						this.k.set(k + dofn, k + dofn, 1);
-						this.r.set(k + dofn, entry.getValue());
+						this.K.set(k + dofn, k + dofn, 1);
+						this.R.set(k + dofn, entry.getValue());
 					}
 				}
 				dofn++;
@@ -129,8 +134,8 @@ public abstract class Model {
 	}
 
 	protected void solveEquations() {
-		GaussianSolver solver = new GaussianSolver(this.k);
-		Vector u = solver.solve(this.r);
+		GaussianSolver solver = new GaussianSolver(this.K);
+		Vector u = solver.solve(this.R);
 		System.out.println(u);
 		
 		int k = 0;

@@ -4,7 +4,7 @@ import org.la4j.matrix.dense.Basic2DMatrix;
 
 import geometry.node.Node;
 
-public abstract class TriangleElement extends Element {
+public abstract class TriangleElement extends AbstractElement {
 	
 	public TriangleElement(Node n1, Node n2, Node n3) {
 		super();

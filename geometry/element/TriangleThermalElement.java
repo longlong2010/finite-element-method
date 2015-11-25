@@ -10,7 +10,7 @@ import property.Dimension;
 import property.MaterialProperty;
 import property.DimensionProperty;
 
-public class TriangleThermalElement extends TriangleElement implements ThermalElementInterface {
+public class TriangleThermalElement extends TriangleElement implements ThermalElement {
 	
 	protected Material material;
 	protected Dimension dimension;

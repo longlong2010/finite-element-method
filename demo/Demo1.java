@@ -52,8 +52,8 @@ public class Demo1 {
 					continue;
 				}
 
-				Element e1 = new TriangleStructuralElement(nodes[i][j], nodes[i][j + 1], nodes[i + 1][j], material, dimension);
-				Element e2 = new TriangleStructuralElement(nodes[i][j + 1], nodes[i + 1][j + 1], nodes[i + 1][j], material, dimension);
+				StructuralElement e1 = new TriangleStructuralElement(nodes[i][j], nodes[i][j + 1], nodes[i + 1][j], material, dimension);
+				StructuralElement e2 = new TriangleStructuralElement(nodes[i][j + 1], nodes[i + 1][j + 1], nodes[i + 1][j], material, dimension);
 				s.addElement(e1);
 				s.addElement(e2);
 

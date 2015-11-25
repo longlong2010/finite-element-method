@@ -11,7 +11,7 @@ import property.Dimension;
 import property.MaterialProperty;
 import property.DimensionProperty;
 
-public class TriangleStructuralElement extends TriangleElement implements StructuralElementInterface {
+public class TriangleStructuralElement extends TriangleElement implements StructuralElement {
 
 	protected Basic2DMatrix me;
 	protected Material material;
@@ -34,8 +34,6 @@ public class TriangleStructuralElement extends TriangleElement implements Struct
 		int nnode = this.getNodeNum();
 
 		this.me = new Basic2DMatrix(ndof, ndof);
-		
-		double d = e * t / (4 * (1 - nu * nu) * delta);
 
 		double[] b = new double[nnode];
 		double[] c = new double[nnode];
@@ -46,6 +44,8 @@ public class TriangleStructuralElement extends TriangleElement implements Struct
 		for (int i = 0; i < nnode; i++) {
 			c[i] = this.nodes.get((i + 2) % nnode).getX() - this.nodes.get((i + 1) % nnode).getX();
 		}
+		
+		double d = e * t / (4 * (1 - nu * nu) * delta);
 		
 		for (int i = 0; i < nnode; i++) {
 			for (int j = 0; j < nnode; j++) {

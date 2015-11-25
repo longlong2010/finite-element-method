@@ -12,13 +12,14 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-public class Demo3 {
+public class Demo2 {
 
 	public static void main(String[] args) {
 		double nu = 0.2;
 		double e = 200e6;
 		double t = 0.01;
 		double eps = 1e-5;
+		double rho = 7.9e3;
 
 		double kappa = 100;
 
@@ -27,17 +28,18 @@ public class Demo3 {
 		material.setProperty(MaterialProperty.E, e);
 		material.setProperty(MaterialProperty.nu, nu);
 		material.setProperty(MaterialProperty.k, kappa);
+		material.setProperty(MaterialProperty.rho, rho);
 
 		dimension.setProperty(DimensionProperty.t, t);
 
-		Constraint c1 = Constraint.T;
-		Constraint c2 = Constraint.T;
-		Load l = Load.T;
+		Constraint c1 = Constraint.X;
+		Constraint c2 = Constraint.Y;
+		Load l = Load.X;
 
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("demo/demo3.msh"));
-			TreeMap<Integer, ThermalNode> map = new TreeMap<Integer, ThermalNode>();
-			HeatTransfer ht = new HeatTransfer();
+			TreeMap<Integer, StructuralNode> map = new TreeMap<Integer, StructuralNode>();
+			Structure s = new Structure();
 			Visualizer v = new Visualizer(600, 400);
 
 			String line;
@@ -61,15 +63,14 @@ public class Demo3 {
 							int num = in.nextInt();
 							double x = in.nextDouble();
 							double y = in.nextDouble();
-							ThermalNode node = new ThermalNode(x, y);
+							StructuralNode node = new StructuralNode(x, y);
 							if (Math.abs(x) < eps) {
-								node.addConstraint(c1, 10);
+								node.addLoad(l, 10);
+
 							}
 							if (Math.abs(x - 10.0) < eps) {
-								node.addConstraint(c2, 20);
-							}
-							if (Math.abs(y) < eps) {
-								node.addLoad(l, 5);
+								node.addConstraint(c1, 0);
+								node.addConstraint(c2, 0);
 							}
 							map.put(num, node);
 						}
@@ -91,11 +92,11 @@ public class Demo3 {
 									int nn2 = in.nextInt();
 									int nn3 = in.nextInt();
 
-									ThermalNode n1 = map.get(nn1);
-									ThermalNode n2 = map.get(nn2);
-									ThermalNode n3 = map.get(nn3);
-									ThermalElement element = new TriangleThermalElement(n1, n2, n3, material, dimension); 
-									ht.addElement(element);
+									StructuralNode n1 = map.get(nn1);
+									StructuralNode n2 = map.get(nn2);
+									StructuralNode n3 = map.get(nn3);
+									StructuralElement element = new TriangleStructuralElement(n1, n2, n3, material, dimension); 
+									s.addElement(element);
 									v.addElement(element);
 									break;
 							}
@@ -104,8 +105,8 @@ public class Demo3 {
 						break;
 				}
 			}
-			ht.solve();
-			v.show(Dof.T);
+			s.solve();
+			v.show(Dof.Y);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
