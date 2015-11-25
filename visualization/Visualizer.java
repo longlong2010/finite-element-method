@@ -51,10 +51,9 @@ public class Visualizer {
 
 	protected void paintElements(Graphics g) {
 		double smax = 0;
-		Dof m = this.dof;
 
 		for (Element e:this.elements) {
-			double v = Math.abs(e.getValue(m));
+			double v = Math.abs(this.getValue(e));
 			if (v > smax) {
 				smax = v;
 			}
@@ -72,13 +71,17 @@ public class Visualizer {
 				k++;
 			}
 
-			Color c = this.getColor(e.getValue(m) / smax);
+			Color c = this.getColor(this.getValue(e) / smax);
 
 			g.setColor(c);
 			g.fillPolygon(x, y, nnode);
 			g.setColor(Color.black);
 			g.drawPolygon(x, y, nnode);
 		}
+	}
+
+	protected double getValue(Element e) {
+		return e.getValue(this.dof);
 	}
 
 	public boolean addElement(Element e) {

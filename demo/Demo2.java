@@ -7,6 +7,7 @@ import constraint.*;
 import visualization.*;
 import model.*;
 import property.*;
+import result.structure.*;
 
 import java.io.*;
 import java.util.Scanner;
@@ -37,7 +38,7 @@ public class Demo2 {
 		Load l = Load.X;
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("demo/demo3.msh"));
+			BufferedReader reader = new BufferedReader(new FileReader("demo/demo2.msh"));
 			TreeMap<Integer, StructuralNode> map = new TreeMap<Integer, StructuralNode>();
 			Structure s = new Structure();
 			StructuralVisualizer v = new StructuralVisualizer(600, 400);
@@ -65,7 +66,7 @@ public class Demo2 {
 							double y = in.nextDouble();
 							StructuralNode node = new StructuralNode(x, y);
 							if (Math.abs(x) < eps) {
-								node.addLoad(l, 10);
+								node.addLoad(l, -10);
 
 							}
 							if (Math.abs(x - 10.0) < eps) {
@@ -106,7 +107,7 @@ public class Demo2 {
 				}
 			}
 			s.solve();
-			v.show(Dof.Y);
+			v.show(Stress.X);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

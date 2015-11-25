@@ -42,10 +42,9 @@ public abstract class AbstractElement implements Element {
 	}
 
 	public int getDofNum() {
-		int nnode = this.getNodeNum();
 		int ndof = 0;
-		for (int i = 0; i < nnode; i++) {
-			ndof += this.nodes.get(i).getDofNum();
+		for (Node n:nodes) {
+			ndof += n.getDofNum();
 		}
 		return ndof;
 	}

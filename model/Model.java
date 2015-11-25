@@ -136,7 +136,6 @@ public abstract class Model {
 	protected void solveEquations() {
 		GaussianSolver solver = new GaussianSolver(this.K);
 		Vector u = solver.solve(this.R);
-		System.out.println(u);
 		
 		int k = 0;
 		for (Node n:nodes) {

@@ -65,11 +65,11 @@ public class Demo3 {
 							if (Math.abs(x) < eps) {
 								node.addConstraint(c1, 10);
 							}
-							if (Math.abs(x - 10.0) < eps) {
+							if (Math.abs(x - 1.0) < eps) {
 								node.addConstraint(c2, 20);
 							}
 							if (Math.abs(y) < eps) {
-								node.addLoad(l, 5);
+								node.addLoad(l, 50);
 							}
 							map.put(num, node);
 						}
