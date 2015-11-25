@@ -67,8 +67,8 @@ public class Visualizer {
 			
 			int k = 0;
 			for (Node n:e.getNodes()) {
-				x[k] = this.getX(n.getX());
-				y[k] = this.getY(n.getY());
+				x[k] = this.getX(n);
+				y[k] = this.getY(n);
 				k++;
 			}
 
@@ -105,20 +105,28 @@ public class Visualizer {
 		return rc;
 	}
 
+	protected int getX(Node n) {
+		return this.getX(n.getX());
+	}
+
 	protected int getX(double x) {
 		double wx = this.xm - this.xn;
 		double hy = this.ym - this.yn;
-		double ratio = Math.min(this.width / wx, this.height / hy) * 0.8;
+		double ratio = Math.min(this.getWidth() / wx, this.getHeight() / hy) * 0.8;
 		
-		return (int) (ratio * (x - xn) + 0.1 * this.width);
+		return (int) (ratio * (x - xn) + 0.1 * this.getWidth());
+	}
+
+	protected int getY(Node n) {
+		return this.getY(n.getY());
 	}
 
 	protected int getY(double y) {
 		double wx = this.xm - this.xn;
 		double hy = this.ym - this.yn;
-		double ratio = Math.min(this.width / wx, this.height / hy) * 0.8;
+		double ratio = Math.min(this.getWidth() / wx, this.getHeight() / hy) * 0.8;
 	
-		return (int) (this.height * 0.9 - ratio * (y - yn));
+		return (int) (this.getHeight() * 0.9 - ratio * (y - yn));
 	}
 
 	protected Color getColor(double ratio) {
@@ -149,5 +157,13 @@ public class Visualizer {
 	public void show(Dof d) {
 		this.dof = d;
 		this.frame.setVisible(true);		
+	}
+
+	protected int getHeight() {
+		return this.frame.getHeight();
+	}
+
+	protected int getWidth() {
+		return this.frame.getWidth();
 	}
 }

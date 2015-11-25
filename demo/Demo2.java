@@ -40,7 +40,7 @@ public class Demo2 {
 			BufferedReader reader = new BufferedReader(new FileReader("demo/demo3.msh"));
 			TreeMap<Integer, StructuralNode> map = new TreeMap<Integer, StructuralNode>();
 			Structure s = new Structure();
-			Visualizer v = new Visualizer(600, 400);
+			StructuralVisualizer v = new StructuralVisualizer(600, 400);
 
 			String line;
 			int n = 0;
