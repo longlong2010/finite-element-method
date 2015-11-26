@@ -7,7 +7,7 @@ import geometry.element.Element;
 import geometry.element.StructuralElement;
 import result.structure.Stress;
 
-public class StructuralVisualizer extends Visualizer {
+public class StructuralVisualizer extends AbstractVisualizer {
 
 	protected Stress stress;
 
