@@ -154,4 +154,8 @@ public abstract class Model {
 		this.addConstraint();
 		this.solveEquations();
 	}
+
+	public ArrayList<Element> getElements() {
+		return this.elements;
+	}
 }

@@ -35,7 +35,7 @@ public class Demo3 {
 		Load l = Load.T;
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("demo/demo3.msh"));
+			BufferedReader reader = new BufferedReader(new FileReader("demo/demo2.msh"));
 			TreeMap<Integer, ThermalNode> map = new TreeMap<Integer, ThermalNode>();
 			HeatTransfer ht = new HeatTransfer();
 			Visualizer v = new Visualizer(600, 400);
@@ -65,11 +65,8 @@ public class Demo3 {
 							if (Math.abs(x) < eps) {
 								node.addConstraint(c1, 10);
 							}
-							if (Math.abs(x - 1.0) < eps) {
+							if (Math.abs(x - 10.0) < eps) {
 								node.addConstraint(c2, 20);
-							}
-							if (Math.abs(y) < eps) {
-								node.addLoad(l, 50);
 							}
 							map.put(num, node);
 						}

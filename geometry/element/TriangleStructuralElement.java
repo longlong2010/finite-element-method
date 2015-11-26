@@ -13,6 +13,7 @@ import property.Dimension;
 import property.MaterialProperty;
 import property.DimensionProperty;
 import result.structure.Stress;
+import load.Load;
 
 import java.util.TreeSet;
 
@@ -93,6 +94,32 @@ public class TriangleStructuralElement extends TriangleElement implements Struct
 				double v = i == j ? Math.abs(delta) / 6 : Math.abs(delta) / 12;
 				this.me.set(i * 2, j * 2, v * rho * t);
 				this.me.set(i * 2 + 1, j * 2 + 1, v * rho * t);
+			}
+		}
+	}
+
+	public void addThermalLoad(double T) {
+		double T0 = this.material.getProperty(MaterialProperty.T0);
+		double alpha = this.material.getProperty(MaterialProperty.alpha);
+		double t = this.dimension.getProperty(DimensionProperty.t);
+		
+		double delta = this.getJacobi().determinant() * 0.5;
+		
+		Vector p = this.be.transpose().multiply(this.de).multiply(new BasicVector(new double[]{1, 1, 0}));
+		double v = alpha * (T - T0) * Math.abs(delta) * t;
+		
+		int k = 0;
+		for (Node n:nodes) {
+			TreeSet<Dof> dofs = n.getDofs();
+			for (Dof d:dofs) {
+				switch (d) {
+					case X:
+						n.addLoad(Load.X, p.get(k++) * v);
+						break;
+					case Y:
+						n.addLoad(Load.Y, p.get(k++) * v);
+						break;
+				}
 			}
 		}
 	}
