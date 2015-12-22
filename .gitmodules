@@ -1,0 +1,3 @@
+[submodule "la4j"]
+	path = la4j
+	url = https://github.com/vkostyukov/la4j.git
