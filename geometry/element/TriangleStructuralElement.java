@@ -19,9 +19,9 @@ import java.util.TreeSet;
 
 public class TriangleStructuralElement extends TriangleElement implements StructuralElement {
 
-	protected Basic2DMatrix me;
-	protected Basic2DMatrix be;
-	protected Basic2DMatrix de;
+	protected Matrix me;
+	protected Matrix be;
+	protected Matrix de;
 
 	protected Material material;
 	protected Dimension dimension;

@@ -8,7 +8,7 @@ import geometry.node.Node;
 import geometry.node.Dof;
 
 public abstract class AbstractElement implements Element {
-	protected Basic2DMatrix ke;
+	protected Matrix ke;
 	protected ArrayList<Node> nodes;	
 
 	public AbstractElement() {
