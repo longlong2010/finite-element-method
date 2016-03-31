@@ -17,7 +17,7 @@ public class Demo3 {
 
 	public static void main(String[] args) {
 		double nu = 0.2;
-		double e = 200e6;
+		double e = 200e9;
 		double t = 0.01;
 		double eps = 1e-5;
 
@@ -64,7 +64,7 @@ public class Demo3 {
 							double y = in.nextDouble();
 							ThermalNode node = new ThermalNode(x, y);
 							if (Math.abs(x) < eps) {
-								node.addConstraint(c1, 10);
+								node.addConstraint(c1, -20);
 							}
 							if (Math.abs(x - 10.0) < eps) {
 								node.addConstraint(c2, 20);

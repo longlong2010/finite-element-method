@@ -1,5 +1,5 @@
 package property;
 
 public enum DimensionProperty {
-	t, 
+	t, A, I 
 }

@@ -18,7 +18,7 @@ public class Demo2 {
 
 	public static void main(String[] args) {
 		double nu = 0.2;
-		double e = 200e6;
+		double e = 200e9;
 		double t = 0.01;
 		double eps = 1e-5;
 		double rho = 7.9e3;
