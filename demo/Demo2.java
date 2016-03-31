@@ -10,6 +10,7 @@ import property.*;
 import result.structure.*;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.TreeMap;
 
