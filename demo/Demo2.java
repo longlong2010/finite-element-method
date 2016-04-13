@@ -10,6 +10,7 @@ import property.*;
 import result.structure.*;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -60,7 +61,7 @@ public class Demo2 {
 				switch (tag) {
 					case "$Nodes":
 						if (n > 1) {
-							Scanner in = new Scanner(line);
+							Scanner in = new Scanner(line).useLocale(Locale.US);
 							int num = in.nextInt();
 							double x = in.nextDouble();
 							double y = in.nextDouble();
